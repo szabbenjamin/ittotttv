@@ -1,0 +1,22 @@
+/**
+ * Created by Ben on 2017. 01. 09..
+ */
+
+"use strict";
+
+const config = {
+    preUrl:             'http://192.168.0.1:8080/', // Az a szerver ip cím/host ahol a servlet fut
+    recordingLocation:  '/home/user/TV/', // path, ahova a felvételek mentésre kerülnek
+    USERDATA: {
+        /**
+         * Belépési adatok
+         * A bejelentkezés telefonszámmal és jelszóval történik
+         */
+        'login_humobilprefix[]': 'xx', // 20/30/70-es, stb mobil előtag 06 vagy +36 nem kell!!
+        'login_humobilplus': 'xxxxxxx', // telefonszám utolsó 7 számjegye
+        'login_hupassword': 'xxxxxxxxx', // jelszó
+        'loginsubmitIndicator': 'true'
+    }
+};
+
+module.exports = config;
