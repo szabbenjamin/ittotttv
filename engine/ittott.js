@@ -88,6 +88,26 @@ class Ittott {
         });
     }
 
+    hello (url) {
+        var headers = {
+            'Accept': '*/*',
+            'Accept-Encoding':     'gzip, deflate, sdch',
+            'Accept-Language':     'hu-HU,hu;q=0.8,en-US;q=0.6,en;q=0.4',
+            'Cache-Control':       'no-cache',
+            'Connection':          'keep-alive',
+            'Host':                'cdn.y5.hu',
+            'Pragma':              'no-cache',
+            'Referer':             'http://ittott.tv/',
+            'User-Agent':          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
+            'X-Requested-With':    'ShockwaveFlash/24.0.0.186'
+        };
+        request.get(url, {
+            headers: headers
+        }, () => {
+            // log('Hello: ' + url);
+        });
+    }
+
     getChannelList(cb) {
         this.login(() => {
             request.post(

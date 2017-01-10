@@ -19,6 +19,8 @@ var app = new Ittott(USERDATA),
 
 app.getChannelList(cnls => channels = cnls);
 
+var hello = null;
+
 var server = http.createServer(function(request, response) {
     var get   = decodeURIComponent(request.url.substring(1)),
         param = get;
@@ -34,10 +36,17 @@ var server = http.createServer(function(request, response) {
     }
     else if ((get.substring(0, 2) === 'io') && (channels.indexOf(get) !== -1)) {
         app.getChannel(get, function (url) {
+            clearInterval(hello);
+            app.hello(url);
+
             response.writeHead(302, {
                 'Location': url
             });
             response.end();
+
+            hello = setInterval(() => {
+                app.hello(url);
+            }, 5000);
         });
         log('Inditva: ' + get);
     }
@@ -66,5 +75,6 @@ log("Server is listening");
 
 
 app.generateChannelList();
+
 
 var s = new Scheduler(Ittott, USERDATA);
