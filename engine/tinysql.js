@@ -4,6 +4,7 @@
 "use strict";
 
 const fs = require('fs');
+var log = require('./log.js');
 const dbfile = "contents.db";
 
 class TinySql {

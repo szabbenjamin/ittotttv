@@ -13,3 +13,4 @@ channels.m3u
 epg.xml
 tv_servlet.sh
 shelf/*
+log.log

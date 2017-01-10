@@ -4,6 +4,7 @@
 var http = require("http");
 const fs = require('fs');
 const exec = require('child_process').exec;
+var log = require('./log.js');
 
 var Ittott = require('./ittott.js');
 var Scheduler = require('./scheduler.js');
@@ -29,7 +30,7 @@ var server = http.createServer(function(request, response) {
             'Location': get
         });
         response.end();
-        console.log('Inditva: ' + get);
+        log('Inditva: ' + get);
     }
     else if ((get.substring(0, 2) === 'io') && (channels.indexOf(get) !== -1)) {
         app.getChannel(get, function (url) {
@@ -38,7 +39,7 @@ var server = http.createServer(function(request, response) {
             });
             response.end();
         });
-        console.log('Inditva: ' + get);
+        log('Inditva: ' + get);
     }
     else if (get.substring(0, 11) === 'setprogram=') {
         response.writeHead(200, {"Content-Type": "text/html"});
@@ -46,7 +47,7 @@ var server = http.createServer(function(request, response) {
         exec('nodejs addProgram.js ' + program);
         response.write('OK');
         response.end();
-        console.log('Hozzaadva: ' + program);
+        log('Hozzaadva: ' + program);
     }
     else {
         response.writeHead(200, {"Content-Type": "text/html"});
@@ -58,10 +59,10 @@ var server = http.createServer(function(request, response) {
 try {
     server.listen(8080);
 } catch (e) {
-    console.log('Hiba tortent: ', e.toString());
+    log('Hiba tortent: ' + e.toString());
     return;
 }
-console.log("Server is listening");
+log("Server is listening");
 
 
 app.generateChannelList();

@@ -1,7 +1,7 @@
 /**
  * Created by Ben on 2016. 10. 27..
  */
-
+var log = require('./log.js');
 var TinySql = require('./tinysql.js');
 /**
  * Adatbázis objektum

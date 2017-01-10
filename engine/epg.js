@@ -9,6 +9,7 @@ var request = request.defaults({jar: true});
 const readlineSync = require('readline-sync');
 const fs = require('fs');
 const exec = require('child_process').exec;
+var log = require('./log.js');
 
 class Epg {
     constructor () {

@@ -3,6 +3,7 @@
  */
 "use strict";
 var TinySql = require('./tinysql.js');
+var log = require('./log.js');
 const exec = require('child_process').exec;
 const config = require('../config.js');
 
@@ -26,7 +27,7 @@ class Scheduler {
         /**
          * Műsorok letöltésének indítása percenként
          */
-        console.log('Musorok letoltesenek inditasa...');
+        log('Musorok letoltesenek inditasa...');
         setInterval(function () {
             self.startRecord();
         }, 60 * 1000);
@@ -91,7 +92,7 @@ class Scheduler {
                 });
 
                 db.rmData(data.id);
-                console.log('Felvetel: ' + data.channel);
+                log('Felvetel: ' + data.channel);
             });
         });
 

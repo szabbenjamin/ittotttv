@@ -11,6 +11,7 @@ const readlineSync = require('readline-sync');
 const fs = require('fs');
 var epgClass = require('./epg');
 var Epg = new epgClass();
+var log = require('./log.js');
 
 const config = require('../config.js');
 
@@ -61,7 +62,7 @@ class Ittott {
         this.login(() => {
             if (self.lastChannel.name === channel) {
                 cb(self.lastChannel.url);
-                console.log('...from cache');
+                log('...from cache');
                 return;
             }
 
@@ -109,7 +110,7 @@ class Ittott {
                             elements.push(id);
                         }
                     });
-                    console.log('Csatornalista betoltve');
+                    log('Csatornalista betoltve');
                     cb(elements);
                 }
             );
@@ -118,7 +119,7 @@ class Ittott {
 
     generateChannelList () {
         var self = this;
-        console.log('Generating channel list...');
+        log('Generating channel list...');
         this.login(() => {
             request.post(
                 'http://ittott.tv/mytv',
@@ -162,7 +163,7 @@ class Ittott {
             epgPrograms = '',
             epgUrls     = Epg.getChannelEpgUrls();
 
-        console.log('EPG újratöltése...', this.collectedChannels.length, 'csatorna');
+        log('EPG újratöltése...' + this.collectedChannels.length + ' db csatorna');
 
         $.each(this.collectedChannels, function (index, value) {
             var channelIndex = value.channelIndex,
@@ -173,7 +174,7 @@ class Ittott {
                 epgChannels += Epg.getChannelEpg(channelIndex, name);
 
                 Epg.loadEPG(epgUrls[id], function (shows) {
-                    console.log(epgUrls[id], shows.length);
+                    log(epgUrls[id] + ' ' + shows.length + ' scannelt musor');
                     for (var i = 0; i < shows.length; i++) {
                         var endStartDate = new Date(shows[i].startDate);
                         epgPrograms += Epg.getProgrammeTemplate(
@@ -194,7 +195,7 @@ class Ittott {
         setTimeout(function () {
             var content = Epg.getXmlContainer(epgChannels + epgPrograms);
             fs.writeFileSync('../epg.xml', content);
-            console.log('epg.xml újraírva');
+            log('epg.xml újraírva');
         }, 120 * 1000);
 
         /**
