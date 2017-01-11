@@ -66,12 +66,20 @@ var server = http.createServer(function(request, response) {
 });
 
 try {
-    server.listen(8080);
+    var listenPort = parseInt(config.preUrl.split(':')[2].replace('/', ''));
+    if (!isNaN(listenPort) && listenPort > 0) {
+        server.listen(listenPort);
+    }
+    else {
+        log(' HIBA! Érvénytelen megadott port: ' + listenPort);
+        return;
+    }
+
 } catch (e) {
     log('Hiba tortent: ' + e.toString());
     return;
 }
-log("Server is listening");
+log("Server is listening: " + config.preUrl);
 
 
 app.generateChannelList();
