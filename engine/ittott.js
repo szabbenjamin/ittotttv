@@ -3,6 +3,7 @@
  */
 "use strict";
 
+var querystring = require('querystring');
 var jsdom = require("jsdom");
 var $ = require("jquery")(jsdom.jsdom().defaultView);
 var request = require('request');
@@ -15,7 +16,23 @@ var log = require('./log.js');
 
 const config = require('../config.js');
 
-
+var header = function (form) {
+    return {
+        'Accept':'application/json, text/javascript, */*; q=0.01',
+        'Accept-Encoding':'gzip, deflate',
+        'Accept-Language':'hu-HU,hu;q=0.8,en-US;q=0.6,en;q=0.4',
+        'Cache-Control':'no-cache',
+        'Connection':'keep-alive',
+        'Content-Length': querystring.stringify(form).length,
+        'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+        'Host':'ittott.tv',
+        'Origin':'http://ittott.tv',
+        'Pragma':'no-cache',
+        'Referer':'http://ittott.tv/',
+        'User-Agent':'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Mobile Safari/537.36',
+        'X-Requested-With':'XMLHttpRequest'
+    };
+};
 
 const preUrl = config.preUrl;
 
@@ -67,44 +84,35 @@ class Ittott {
             }
 
             request.post(
-                'http://ittott.tv/mytv?chanel=' + channel,
                 {
+                    url: 'http://ittott.tv/mytv?chanel=' + channel + '&playOnMobil=1',
                     form: {
                         mode: 'ajax'
-                    }
+                    },
+                    headers: header({
+                        mode: 'ajax'
+                    })
                 },
                 function (error, response, body) {
-                    var content = JSON.parse(body).content.ajaxpopup.value;
-                    var url = $(content).find('source').attr('src');
+                    var d = body.split("window.location.assign('");
+                    var a = d[1].split("')");
+
+                    /**
+                     * Lejátszási url
+                     * @type {string} url
+                     */
+                    var url = a[0].replace(/\\/g, '');
 
                     self.lastChannel = {
                         name: channel,
                         url: url
                     };
 
-                    cb(url);
+                    setTimeout(function () {
+                        cb(url);
+                    }, 1500);
                 }
             );
-        });
-    }
-
-    hello (url) {
-        var headers = {
-            'Accept': '*/*',
-            'Accept-Encoding':     'gzip, deflate, sdch',
-            'Accept-Language':     'hu-HU,hu;q=0.8,en-US;q=0.6,en;q=0.4',
-            'Cache-Control':       'no-cache',
-            'Connection':          'keep-alive',
-            'Host':                'cdn.y5.hu',
-            'Pragma':              'no-cache',
-            'Referer':             'http://ittott.tv/',
-            'User-Agent':          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
-            'X-Requested-With':    'ShockwaveFlash/24.0.0.186'
-        };
-        request.get(url, {
-            headers: headers
-        }, () => {
-            // log('Hello: ' + url);
         });
     }
 
