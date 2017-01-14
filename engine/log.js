@@ -7,6 +7,11 @@
 const console_log = true;
 const fs = require('fs');
 
+/**
+ * Log gyártása. Írja a logfájlba és kimenetre is.
+ * Ha a kód kicsit stabilabb lesz a configba bekerül a console_log kapcsolgathatósága
+ * @param input {string}
+ */
 var log = function (input) {
     input = (new Date()).toString() + ' # ' + input;
 

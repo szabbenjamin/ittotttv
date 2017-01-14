@@ -1,5 +1,12 @@
 /**
  * Created by Ben on 2016. 10. 27..
+ *
+ * Műsor felvétele konzolos program.
+ * Így kell futtatni:
+ * nodejs addProgram.js
+ *
+ * Ha nem adsz további paramétert akkor kapsz egy rövid help-et a használatáról.
+ * Ha kedved van kisérletezz vele, többet nem írok, mert deprecated
  */
 var log = require('./log.js');
 var TinySql = require('./tinysql.js');
