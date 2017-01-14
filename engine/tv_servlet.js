@@ -6,11 +6,24 @@ const fs = require('fs');
 const exec = require('child_process').exec;
 var log = require('./log.js');
 
+/**
+ * Ittott.tv vezérlőprogramja, ez épít "tunnel"-t az ittotttv és a kodi közé.
+ * Paraméterében bejelentkezési adatokat át kell adni
+ * @type {Ittott}
+ */
 var Ittott = require('./ittott.js');
+
+/**
+ * Felvétel ütemező. Kivezetésre fog kerülni, egy webes felület fogja átvenni a helyét.
+ * #DEPRECATED
+ * @type {Scheduler}
+ */
 var Scheduler = require('./scheduler.js');
 
+/**
+ * User konfiguráció. Benne van a .gitignore-ban, a config.js.sample a mintája
+ */
 const config = require('../config.js');
-
 
 const USERDATA = config.USERDATA;
 
@@ -66,9 +79,15 @@ var server = http.createServer(function(request, response) {
 });
 
 try {
+    /**
+     * Feldolgozzuk a config fájlban beállított preUrl-t és kinyerjük belőle a portszámot.
+     * Ezen fog hallgatni a servlet
+     * @type {Number}
+     */
     var listenPort = parseInt(config.preUrl.split(':')[2].replace('/', ''));
     if (!isNaN(listenPort) && listenPort > 0) {
         server.listen(listenPort);
+        log("Server is listening: " + config.preUrl);
     }
     else {
         log(' HIBA! Érvénytelen megadott port: ' + listenPort);
@@ -79,10 +98,16 @@ try {
     log('Hiba tortent: ' + e.toString());
     return;
 }
-log("Server is listening: " + config.preUrl);
 
-
+/**
+ * Csatornalistát generálunk. Jelenleg futáskor blokkolja az erőforrásokat, miatta a server sem mindig válaszol.
+ * Majd átalakításra kerül
+ */
 app.generateChannelList();
 
-
+/**
+ * Elindítja az időzítőt.
+ * Kikommenteléssel le lehet kapcsolni, ha valahol zavart okozna
+ * @type {Scheduler}
+ */
 var s = new Scheduler(Ittott, USERDATA);

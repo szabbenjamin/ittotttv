@@ -7,6 +7,10 @@ const fs = require('fs');
 var log = require('./log.js');
 const dbfile = "contents.db";
 
+/**
+ * Egy végtelenül egyszerű, de annál rondább "adatbázis kezelő" az ütemezőhöz.
+ * Ez is ki fog kerülni a konzolos schedulerrel együtt.
+ */
 class TinySql {
     constructor () {
         try {

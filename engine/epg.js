@@ -11,8 +11,15 @@ const fs = require('fs');
 const exec = require('child_process').exec;
 var log = require('./log.js');
 
+/**
+ * Olvasnivalók:
+ * https://en.wikipedia.org/wiki/Electronic_program_guide
+ * http://kodi.wiki/view/Add-on:IPTV_Simple_Client
+ */
 class Epg {
     constructor () {
+
+        // A musor.tv-ről összekukázott heti tv újság listája - igény esetén bővíthető, ha bővíted szólj és ide is betesszük a plusz csatornát!
         this.channelEpgUrls = {
             io_m2: 'http://musor.tv/heti/tvmusor/M2',
             io_dunatv: 'http://musor.tv/heti/tvmusor/DUNA',
@@ -47,6 +54,10 @@ class Epg {
             io_tv2: 'http://musor.tv/heti/tvmusor/TV2',
             io_viasat3: 'http://musor.tv/heti/tvmusor/VIASAT3'
         };
+
+        /*
+         * Template fájlok az xml generálásához
+         */
         this.channelTemplate = '<channel id="id:id"><display-name lang="hu">:channelName</display-name></channel>';
         this.programmeTemplate = '<programme start=":start +0100" stop=":end +0100" channel="id:id"><title lang="hu">:programme</title></programme>';
         this.xmlContainer = '<?xml version="1.0" encoding="utf-8" ?><tv>:content</tv>';
@@ -71,10 +82,14 @@ class Epg {
 
     getProgrammeTemplate (id, start, end, programme) {
         var startCorrect = new Date(start);
+        // időzóna korrekció
         startCorrect.setHours(startCorrect.getHours() - 3);
 
         var endCorrect = new Date(end);
+        // időzóna korrekció
         endCorrect.setHours(endCorrect.getHours() - 3);
+
+        // Nem lehet egyszerre egy csatornán egy másodpercben egy csatornának kezdete és vége, így kivontunk belőle 1 mp-et
         endCorrect.setMilliseconds(endCorrect.getMilliseconds() - 1000);
 
         return this.programmeTemplate
@@ -111,6 +126,11 @@ class Epg {
         return '' + year+month+day+hour+minute+second;
     }
 
+    /**
+     * Műsorok letöltése
+     * @param epgUrl
+     * @param cb
+     */
     loadEPG(epgUrl, cb) {
         var headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:24.0) Gecko/20100101 Firefox/24.0',
@@ -137,6 +157,7 @@ class Epg {
                 shows.push(show);
             });
 
+            // Rendezés
             shows.sort(function (a, b) {
                 a = new Date(a.startDate);
                 b = new Date(b.startDate);
