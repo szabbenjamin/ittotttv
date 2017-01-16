@@ -24,8 +24,9 @@ var Scheduler = require('./scheduler.js');
  * User konfiguráció. Benne van a .gitignore-ban, a config.js.sample a mintája
  */
 const config = require('../config.js');
-
 const USERDATA = config.USERDATA;
+
+log('#############    Kezdés     ##############');
 
 var app = new Ittott(USERDATA),
     channels;
