@@ -110,7 +110,7 @@ class Ittott {
 
                     setTimeout(function () {
                         cb(url);
-                    }, 1500);
+                    }, 200);
                 }
             );
         });

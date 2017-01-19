@@ -1,0 +1,24 @@
+{
+  "name": "ittotttv",
+  "version": "0.0.1",
+  "description": "Ittott.tv nodejs servlet külső lejátszóhoz",
+  "main": "tv_servlet.js",
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "jsdom": "^9.9.1",
+    "readline-sync": "^1.4.5",
+    "webpack": "^1.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/szabbenjamin/ittotttv"
+  },
+  "engines": {
+    "node": ">=7.3.0"
+  },
+  "scripts": {
+    "start": "nodejs tv_servlet.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
