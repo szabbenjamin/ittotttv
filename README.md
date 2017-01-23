@@ -21,7 +21,7 @@ Telepítés:
 `wget https://raw.githubusercontent.com/szabbenjamin/ittotttv/master/osmc_installer.sh && bash osmc_installer.sh`
 
 
-**Beüzemelés, telepítés (linux rendszereken):**
+**Telepítés más linux rendszerre**
 
 Telepítsd a nodejs v7 futtatókörnyezetet a saját linux rendszeredre: https://nodejs.org/en/download/package-manager/
 
@@ -40,6 +40,8 @@ Itt töltsd ki az ittott.tv oldalon regisztrált bejelentkezési adataidat, ille
 Ezután:
 
 `cd engine`
+
+`npm install`
 
 `npm start`
 
