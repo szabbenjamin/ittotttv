@@ -1,10 +1,9 @@
 # ittotttv
-**Ittott.tv kodi connect servlet**
+**Ittott.tv kodi connect servlet, magyar IPTV alkalmazás KODI lejátszóeszközön**
 
 Figyelem!
-A program alfa állapotú, saját magam használtam saját környezetben, sosem volt még más környezetben kipróbálva!
-A program működéséért semmilyen garanciát nem vállalok, a leírás szükség esetén bővülni fog, ha észrevételed van vedd fel velem a kapcsolatot, vagy írj ki jegyet github-on.
-Használd egészséggel!
+A program béta állapotú, jelenleg több gépen való tesztelés alapján működőképesnek mondható.
+Mindenféle linuxos környezetben használható, Raspberry Pi eszközökön tesztelve!
 
 
 **A programról**
@@ -12,29 +11,37 @@ Használd egészséggel!
 Ez egy servlet, ami fut egy linuxos szerveren és összeköttetést biztosít egy lejátszóprogram és az ittott.tv szolgáltatása között.
 A servlet az indításakor letölti a rendelkezésre álló csatornák listáját és a hozzájuk tartozó epg (elektronikus programújságot). Ezek a letöltött állományok megetethetők a Kodi IPTV PVR pluginjával.
 
+
+**Telepítés - Raspberry PI**
+
+OSMC alapú Kodi 17-es verziója a minimum követelmény. Töltsd le a legfrissebb OSMC-t, írd ki az SD kártyára. A telepítő fel fogja frissíteni az OSMC-t a 17-es verzióra.
+
+Telepítés:
+
+`wget https://raw.githubusercontent.com/szabbenjamin/ittotttv/master/osmc_installer.sh && bash osmc_installer.sh`
+
+
 **Beüzemelés, telepítés (linux rendszereken):**
 
-Telepítsd a nodejs futtatókörnyezetet a saját linux rendszeredre: https://nodejs.org/en/
-
-Videófelvételhez telepítsd az ffmpeg csomagot!
+Telepítsd a nodejs v7 futtatókörnyezetet a saját linux rendszeredre: https://nodejs.org/en/download/package-manager/
 
 Állj arra a mappára ahova a servletet telepíteni szeretnéd, majd:
 
-_git clone https://github.com/szabbenjamin/ittotttv_
+`git clone https://github.com/szabbenjamin/ittotttv`
 
-_cd ittotttv_
+`cd ittotttv`
 
-_cp config.js.sample config.js_
+`cp config.js.sample config.js`
 
-_nano config.js_
+`nano config.js`
 
-Itt töltsd ki az ittott.tv oldalon regisztrált bejelentkezési adataidat, illetve a preUrl és recordingLocation adatokat.
+Itt töltsd ki az ittott.tv oldalon regisztrált bejelentkezési adataidat, illetve a preUrl-t.
 
 Ezután:
 
-_cd engine_
+`cd engine`
 
-_nodejs tv_servlet.js_
+`npm start`
 
 
 Ekkor elindul a csatornalista és az EPG betöltése, ez eltarthat néhány percig.
