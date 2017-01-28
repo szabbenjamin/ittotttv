@@ -193,10 +193,27 @@ class Ittott {
 
         log('EPG újratöltése...' + this.collectedChannels.length + ' db csatorna');
 
-        $.each(this.collectedChannels, function (index, value) {
-            var channelIndex = value.channelIndex,
-                name         = value.name,
-                id           = value.id;
+        /**
+         * XML legyártása
+         */
+        var writeXml = () => {
+            var content = Epg.getXmlContainer(epgChannels + epgPrograms);
+            fs.writeFileSync('../epg.xml', content);
+            log('epg.xml újraírva');
+        };
+
+        var progress = setInterval(() => {
+            // Ha elfogyott vége a dalnak, mentjük az xml-t
+            if (self.collectedChannels.length === 0) {
+                clearInterval(progress);
+                writeXml();
+                return;
+            }
+
+            var channelElement  = self.collectedChannels.pop(),
+                channelIndex    = channelElement.channelIndex,
+                name            = channelElement.name,
+                id              = channelElement.id;
 
             if (typeof epgUrls[id] !== 'undefined') {
                 epgChannels += Epg.getChannelEpg(channelIndex, name);
@@ -215,16 +232,7 @@ class Ittott {
                     }
                 });
             }
-        });
-
-        /**
-         * XML legyártása
-         */
-        setTimeout(function () {
-            var content = Epg.getXmlContainer(epgChannels + epgPrograms);
-            fs.writeFileSync('../epg.xml', content);
-            log('epg.xml újraírva');
-        }, 120 * 1000);
+        }, 2000);
 
         /**
          * XML újragyártása 12 óránként
