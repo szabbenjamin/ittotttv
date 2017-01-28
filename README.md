@@ -18,6 +18,8 @@ OSMC alapú Kodi 17-es verziója a minimum követelmény. Töltsd le a legfrisse
 
 Telepítés:
 
+`sudo su`
+
 `wget https://raw.githubusercontent.com/szabbenjamin/ittotttv/master/osmc_installer.sh && bash osmc_installer.sh`
 
 
