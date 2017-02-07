@@ -46,6 +46,7 @@ class Ittott {
         };
 
         this.collectedChannels = [];
+        this.lastChannelTimeout;
     }
 
     /**
@@ -108,6 +109,12 @@ class Ittott {
                         url: url
                     };
 
+                    clearTimeout(self.lastChannelTimeout);
+                    self.lastChannelTimeout = setTimeout(() => {
+                        log('clear cache: ' + channel);
+                        self.lastChannel.name = null;
+                    }, 1000 * 60 * 60); // 1h
+
                     setTimeout(function () {
                         cb(url);
                     }, 200);
@@ -147,7 +154,7 @@ class Ittott {
 
     generateChannelList () {
         var self = this;
-        log('Generating channel list...');
+        log('Csatornalista generalas...');
         this.login(() => {
             request.post(
                 'http://ittott.tv/mytv',
@@ -191,7 +198,7 @@ class Ittott {
             epgPrograms = '',
             epgUrls     = Epg.getChannelEpgUrls();
 
-        log('EPG újratöltése...' + this.collectedChannels.length + ' db csatorna');
+        log('EPG ujratoltese...' + this.collectedChannels.length + ' db csatorna');
 
         /**
          * XML legyártása
@@ -199,7 +206,7 @@ class Ittott {
         var writeXml = () => {
             var content = Epg.getXmlContainer(epgChannels + epgPrograms);
             fs.writeFileSync('../epg.xml', content);
-            log('epg.xml újraírva');
+            log('epg.xml ujrairva');
         };
 
         var progress = setInterval(() => {
