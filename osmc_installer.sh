@@ -8,6 +8,7 @@ cd ittotttv/engine
 
 echo "#!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+git pull origin master
 cd /home/osmc/ittotttv/engine
 npm start" > tv_servlet.sh
 chmod +x tv_servlet.sh
