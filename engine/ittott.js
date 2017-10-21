@@ -209,15 +209,16 @@ class Ittott {
             log('epg.xml ujrairva');
         };
 
+        let channel_list_temp = self.collectedChannels;
         var progress = setInterval(() => {
             // Ha elfogyott vége a dalnak, mentjük az xml-t
-            if (self.collectedChannels.length === 0) {
+            if (channel_list_temp.length === 0) {
                 clearInterval(progress);
                 writeXml();
                 return;
             }
 
-            var channelElement  = self.collectedChannels.pop(),
+            var channelElement  = channel_list_temp.pop(),
                 channelIndex    = channelElement.channelIndex,
                 name            = channelElement.name,
                 id              = channelElement.id;
@@ -245,6 +246,7 @@ class Ittott {
          * XML újragyártása 12 óránként
          */
         setTimeout(function () {
+            log('XML ujragyartasa...');
             self.buildEPG();
         }, 12 * 60 * 60 * 1000);
     }
