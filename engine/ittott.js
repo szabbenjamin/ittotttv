@@ -26,9 +26,9 @@ var header = function (form) {
         'Content-Length': querystring.stringify(form).length,
         'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
         'Host':'ittott.tv',
-        'Origin':'http://ittott.tv',
+        'Origin':'https://ittott.tv',
         'Pragma':'no-cache',
-        'Referer':'http://ittott.tv/',
+        'Referer':'https://ittott.tv/',
         'User-Agent':'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Mobile Safari/537.36',
         'X-Requested-With':'XMLHttpRequest'
     };
@@ -64,7 +64,7 @@ class Ittott {
         }
 
         request.post(
-            'http://ittott.tv/?useraction=login',
+            'https://ittott.tv/?useraction=login',
             {
                 form: this.user
             },
@@ -86,7 +86,7 @@ class Ittott {
 
             request.post(
                 {
-                    url: 'http://ittott.tv/mytv?chanel=' + channel + '&playOnMobil=1',
+                    url: 'https://ittott.tv/mytv?chanel=' + channel + '&playOnMobil=1',
                     form: {
                         mode: 'ajax'
                     },
@@ -126,7 +126,7 @@ class Ittott {
     getChannelList(cb) {
         this.login(() => {
             request.post(
-                'http://ittott.tv/mytv',
+                'https://ittott.tv/mytv',
                 {
                     form: {
                         mode: 'ajax'
@@ -157,7 +157,7 @@ class Ittott {
         log('Csatornalista generalas...');
         this.login(() => {
             request.post(
-                'http://ittott.tv/mytv',
+                'https://ittott.tv/mytv',
                 {
                     form: {
                         mode: 'ajax'
