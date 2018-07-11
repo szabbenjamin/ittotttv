@@ -1,8 +1,14 @@
 #!/bin/bash
 
+if [ "$EUID" -ne 0 ]
+  then echo "Futtasd root modban. Ird be: sudo su"
+  exit
+fi
+
 apt-get update;
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
-sudo apt-get install -y nodejs git
+apt-get install -y nodejs git
+apt-get install -y npm
 git clone https://github.com/szabbenjamin/ittotttv
 cd ittotttv/engine
 
