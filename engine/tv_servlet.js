@@ -53,6 +53,11 @@ var server = http.createServer(function(request, response) {
             });
             response.end();
         });
+    else if ((get.substring(0, 3) === 'eco') && (channels.indexOf(get) !== -1)) {
+        app.getChannel(get, function (url) {
+            response.writeHead(302, {
+                'Location': "http://" + url.substr(8)
+            }); 
         log('Inditva: ' + get);
     }
     else if (get.substring(0, 11) === 'setprogram=') {
