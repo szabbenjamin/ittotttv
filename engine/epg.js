@@ -1,15 +1,11 @@
 /**
  * Created by Ben on 2016. 11. 26..
  */
-"use strict";
-var jsdom = require("jsdom");
-var $ = require("jquery")(jsdom.jsdom().defaultView);
-var request = require('request');
-var request = request.defaults({jar: true});
-const readlineSync = require('readline-sync');
-const fs = require('fs');
-const exec = require('child_process').exec;
-var log = require('./log.js');
+'use strict';
+
+var jsdom = require('jsdom');
+var $ = require('jquery')(jsdom.jsdom().defaultView);
+var request = require('request').defaults({jar: true});
 
 /**
  * Olvasnivalók:
@@ -125,19 +121,19 @@ class Epg {
         var minute  = d.getMinutes();
         var second  = d.getSeconds();
         if(month.toString().length == 1) {
-            var month = '0'+month;
+            month = '0'+month;
         }
         if(day.toString().length == 1) {
-            var day = '0'+day;
+            day = '0'+day;
         }
         if(hour.toString().length == 1) {
-            var hour = '0'+hour;
+            hour = '0'+hour;
         }
         if(minute.toString().length == 1) {
-            var minute = '0'+minute;
+            minute = '0'+minute;
         }
         if(second.toString().length == 1) {
-            var second = '0'+second;
+            second = '0'+second;
         }
 
         return '' + year+month+day+hour+minute+second;
@@ -162,27 +158,26 @@ class Epg {
                 headers: headers
             },
             function (error, response, body) {
-            var loadedShows = [];
+                $.each($(body).find('[itemtype="https://schema.org/BroadcastEvent"]'), function (index, program) {
+                    var show = {
+                        startDate: $(program).find('[itemprop="startDate"]').attr('content'),
+                        name: $(program).find('[itemprop="name"] a').html(),
+                        description: $(program).find('[itemprop="description"]').html()
+                    };
 
-            $.each($(body).find('[itemtype="https://schema.org/BroadcastEvent"]'), function (index, program) {
-                var show = {
-                    startDate: $(program).find('[itemprop="startDate"]').attr('content'),
-                    name: $(program).find('[itemprop="name"] a').html(),
-                    description: $(program).find('[itemprop="description"]').html()
-                };
+                    shows.push(show);
+                });
 
-                shows.push(show);
-            });
+                // Rendezés
+                shows.sort(function (a, b) {
+                    a = new Date(a.startDate);
+                    b = new Date(b.startDate);
+                    return a < b ? -1 : a > b ? 1 : 0;
+                });
 
-            // Rendezés
-            shows.sort(function (a, b) {
-                a = new Date(a.startDate);
-                b = new Date(b.startDate);
-                return a < b ? -1 : a > b ? 1 : 0;
-            });
-
-            cb(shows);
-        });
+                cb(shows);
+            }
+        );
 
     }
 }

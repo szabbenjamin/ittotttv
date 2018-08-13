@@ -9,6 +9,9 @@
     "readline-sync": "^1.4.5",
     "webpack": "^1.14.0"
   },
+  "devDependencies": {
+    "eslint": "^5.3.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/szabbenjamin/ittotttv"
@@ -17,7 +20,8 @@
     "node": ">=7.3.0"
   },
   "scripts": {
-    "start": "nodejs tv_servlet.js"
+    "start": "nodejs tv_servlet.js",
+    "lint": "eslint -v && eslint ."
   },
   "author": "",
   "license": "ISC"

@@ -19,7 +19,7 @@ cd /home/osmc/ittotttv/engine
 npm start" > tv_servlet.sh
 chmod +x tv_servlet.sh
 
-npm install
+npm install --only=prod
 cd ..
 cp config.js.sample config.js
 echo "Add meg bejelentkezesi adataidat..."

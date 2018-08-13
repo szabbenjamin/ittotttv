@@ -1,7 +1,8 @@
 /**
  * Created by Ben on 2016. 10. 27..
  */
-"use strict";
+'use strict';
+
 var TinySql = require('./tinysql.js');
 var log = require('./log.js');
 const exec = require('child_process').exec;
@@ -34,7 +35,6 @@ class Scheduler {
     }
 
     startRecord () {
-        var self = this;
         /**
          * Itt újra ki kell olvassuk az adatbázis tartalmát, így újrapéldányosítjuk
          * @type {TinySql}
@@ -84,10 +84,10 @@ class Scheduler {
                 app.getChannel(data.channel, url => {
                     exec(
                         systemCall
-                        .replace(':url', url)
-                        .replace(':filename', filename)
-                        .replace(':duration', duration)
-                        .replace(':recordingLocation', recordingLocation)
+                            .replace(':url', url)
+                            .replace(':filename', filename)
+                            .replace(':duration', duration)
+                            .replace(':recordingLocation', recordingLocation)
                     );
                 });
 
@@ -107,19 +107,19 @@ class Scheduler {
         var minute  = now.getMinutes();
         var second  = now.getSeconds();
         if(month.toString().length == 1) {
-            var month = '0'+month;
+            month = '0'+month;
         }
         if(day.toString().length == 1) {
-            var day = '0'+day;
+            day = '0'+day;
         }
         if(hour.toString().length == 1) {
-            var hour = '0'+hour;
+            hour = '0'+hour;
         }
         if(minute.toString().length == 1) {
-            var minute = '0'+minute;
+            minute = '0'+minute;
         }
         if(second.toString().length == 1) {
-            var second = '0'+second;
+            second = '0'+second;
         }
 
         return year+'-'+month+'-'+day+'.'+hour+':'+minute;

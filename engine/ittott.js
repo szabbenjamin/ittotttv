@@ -1,14 +1,12 @@
 /**
  * Created by Ben on 2016. 10. 26..
  */
-"use strict";
+'use strict';
 
 var querystring = require('querystring');
-var jsdom = require("jsdom");
-var $ = require("jquery")(jsdom.jsdom().defaultView);
-var request = require('request');
-var request = request.defaults({jar: true});
-const readlineSync = require('readline-sync');
+var jsdom = require('jsdom');
+var $ = require('jquery')(jsdom.jsdom().defaultView);
+var request = require('request').defaults({jar: true});
 const fs = require('fs');
 var epgClass = require('./epg');
 var Epg = new epgClass();
@@ -68,7 +66,7 @@ class Ittott {
             {
                 form: this.user
             },
-            function (error, response, body) {
+            function () {
                 self.isLoggedIn = true;
                 cb(arguments);
             }

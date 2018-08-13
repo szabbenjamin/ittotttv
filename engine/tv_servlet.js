@@ -1,8 +1,7 @@
 /**
  * Created by Ben on 2016. 10. 26..
  */
-var http = require("http");
-const fs = require('fs');
+var http = require('http');
 const exec = require('child_process').exec;
 var log = require('./log.js');
 
@@ -53,15 +52,18 @@ var server = http.createServer(function(request, response) {
             });
             response.end();
         });
+    }
     else if ((get.substring(0, 3) === 'eco') && (channels.indexOf(get) !== -1)) {
         app.getChannel(get, function (url) {
             response.writeHead(302, {
-                'Location': "http://" + url.substr(8)
+                'Location': 'http://' + url.substr(8)
             }); 
+            response.end();
+        });
         log('Inditva: ' + get);
     }
     else if (get.substring(0, 11) === 'setprogram=') {
-        response.writeHead(200, {"Content-Type": "text/html"});
+        response.writeHead(200, {'Content-Type': 'text/html'});
         var program = param.substring(11);
         exec('nodejs addProgram.js ' + program);
         response.write('OK');
@@ -69,7 +71,7 @@ var server = http.createServer(function(request, response) {
         log('Hozzaadva: ' + program);
     }
     else {
-        response.writeHead(200, {"Content-Type": "text/html"});
+        response.writeHead(200, {'Content-Type': 'text/html'});
         response.end();
     }
 
@@ -84,7 +86,7 @@ try {
     var listenPort = parseInt(config.preUrl.split(':')[2].replace('/', ''));
     if (!isNaN(listenPort) && listenPort > 0) {
         server.listen(listenPort);
-        log("Server is listening: " + config.preUrl);
+        log('Server is listening: ' + config.preUrl);
     }
     else {
         log(' HIBA! Érvénytelen megadott port: ' + listenPort);
@@ -107,4 +109,4 @@ app.generateChannelList();
  * Kikommenteléssel le lehet kapcsolni, ha valahol zavart okozna
  * @type {Scheduler}
  */
-var s = new Scheduler(Ittott, USERDATA);
+new Scheduler(Ittott, USERDATA);
