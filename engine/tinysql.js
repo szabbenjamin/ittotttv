@@ -1,11 +1,10 @@
 /**
  * Created by Ben on 2016. 10. 27..
  */
-"use strict";
+'use strict';
 
 const fs = require('fs');
-var log = require('./log.js');
-const dbfile = "contents.db";
+const dbfile = 'contents.db';
 
 /**
  * Egy végtelenül egyszerű, de annál rondább "adatbázis kezelő" az ütemezőhöz.

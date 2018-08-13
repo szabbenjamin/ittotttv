@@ -2,7 +2,7 @@
  * Created by Ben on 2017. 01. 10..
  */
 
-"use strict"
+'use strict';
 
 const console_log = true;
 const fs = require('fs');

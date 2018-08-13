@@ -24,7 +24,7 @@ var params = process.argv;
 
 if (params.length === 2) {
     console.log('Paramterek: "kezdes vege"');
-    console.log("channel EEEE-HH-NN.OO:PP OO:PP");
+    console.log('channel EEEE-HH-NN.OO:PP OO:PP');
 }
 
 console.log('');
@@ -57,8 +57,8 @@ if (params.length === 4 && params[2] === 'rm') {
 /**
  * Felvételek listázása (ha vannak)
  */
-var db = 0,
-    log = [];
+db = 0;
+log = [];
 
 list.forEach(data => {
     if (data !== null) {
