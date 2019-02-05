@@ -196,7 +196,7 @@ class Ittott {
             epgPrograms = '',
             epgUrls     = Epg.getChannelEpgUrls();
 
-        log('EPG ujratoltese...' + this.collectedChannels.length + ' db csatorna');
+        log('EPG betoltese... Talaltam ' + this.collectedChannels.length + ' db csatornat');
 
         /**
          * XML legyártása
@@ -207,7 +207,8 @@ class Ittott {
             log('epg.xml ujrairva');
         };
 
-        let channel_list_temp = self.collectedChannels;
+        const channel_list_temp = this.collectedChannels;
+
         var progress = setInterval(() => {
             // Ha elfogyott vége a dalnak, mentjük az xml-t
             if (channel_list_temp.length === 0) {
@@ -237,6 +238,9 @@ class Ittott {
                         );
                     }
                 });
+            }
+            else {
+                log(`Nem talalhato ehhez EPG: ${channelElement.id}`);
             }
         }, 2000);
 
