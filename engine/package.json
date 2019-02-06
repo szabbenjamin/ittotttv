@@ -1,6 +1,6 @@
 {
   "name": "ittotttv",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Ittott.tv nodejs servlet külső lejátszóhoz",
   "main": "tv_servlet.js",
   "dependencies": {
@@ -20,7 +20,7 @@
     "node": ">=7.3.0"
   },
   "scripts": {
-    "start": "nodejs tv_servlet.js",
+    "start": "node tv_servlet.js",
     "lint": "eslint -v && eslint ."
   },
   "author": "",
