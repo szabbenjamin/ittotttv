@@ -4,9 +4,13 @@
   "description": "Ittott.tv nodejs servlet külső lejátszóhoz",
   "main": "tv_servlet.js",
   "dependencies": {
+    "dateformat": "^3.0.3",
+    "finalhandler": "^1.1.2",
+    "html-to-text": "^5.1.1",
     "jquery": "^3.1.1",
     "jsdom": "^9.9.1",
     "readline-sync": "^1.4.5",
+    "serve-static": "^1.14.1",
     "webpack": "^1.14.0"
   },
   "devDependencies": {

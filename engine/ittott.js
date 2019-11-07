@@ -164,16 +164,19 @@ class Ittott {
                 function (error, response, body) {
                     var content = JSON.parse(body).content.ajaxpopup.value,
                         links = $(content).find('.ajaxpopuplink'),
-                        channels = '#EXTM3U tvg-shift=3\n';
+                        channels = '#EXTM3U\n';
 
 
                     $.each(links, (channelIndex, value) => {
                         var id      = $(value).attr('href').split('=')[1],
                             name    = $(value).find('img').attr('title');
+                        var logo    = $(value).find('img').attr('src');
 
-                        if (typeof name !== 'undefined') {
-                            channels += '#EXTINF:-' + channelIndex + ' tvg-id="id' + channelIndex + '" tvg-name="' + name + '" tvg-logo="logo1" group-title="' + name + '",' + name + '\n';
-                            channels += preUrl + encodeURIComponent(id) + '.m3u\n';
+                        if (typeof name !== 'undefined' && name.length > 0) {
+                            name = name.replace("'","");
+                            if (logo.length > 0) logo = 'http://ittott.tv' + logo;
+                            channels += '#EXTINF:0' /*+ channelIndex*/ + ' tvg-id="id' +  channelIndex + '" tvg-logo="' + logo + '" tvg-name="' + name + '" group-title="' + name + '",' + name + '\n';
+                            channels += preUrl + encodeURIComponent(id) + '.m3u8\n';
 
                             self.collectedChannels.push({
                                 channelIndex: channelIndex,
@@ -182,8 +185,8 @@ class Ittott {
                             });
                         }
                     });
-
-                    fs.writeFileSync('../channels.m3u', channels);
+                    fs.mkdirSync(config.genFilesDir, { recursive: true });
+                    fs.writeFileSync(config.genFilesDir + '/channels.m3u', channels);
                     self.buildEPG();
                 }
             );
@@ -203,17 +206,33 @@ class Ittott {
          */
         var writeXml = () => {
             var content = Epg.getXmlContainer(epgChannels + epgPrograms);
-            fs.writeFileSync('../epg.xml', content);
+            fs.mkdirSync(config.genFilesDir, { recursive: true });
+            fs.writeFileSync(config.genFilesDir + '/epg.xml', content);
             log('epg.xml ujrairva');
         };
 
-        const channel_list_temp = this.collectedChannels;
+        const sleep = (milliseconds) => {
+            return new Promise(resolve => setTimeout(resolve, milliseconds))
+        }
+
+	// pre-filter list to avoid unnecessary cycles below
+	// TODO: refactor, use worker instead!
+        const channel_list_temp = this.collectedChannels.filter(function(item){
+		var channel = item.id.split('_')[1];
+		if (typeof epgUrls[channel] === 'undefined') {
+			log(`Nem talalhato ehhez EPG: ${item.id}`);
+			return false;
+		}
+		return true;
+	});
 
         var progress = setInterval(() => {
             // Ha elfogyott vége a dalnak, mentjük az xml-t
             if (channel_list_temp.length === 0) {
                 clearInterval(progress);
-                writeXml();
+                sleep(2000).then(() => {
+                    writeXml();
+                })
                 return;
             }
 
@@ -222,26 +241,23 @@ class Ittott {
                 name            = channelElement.name,
                 id              = channelElement.id;
 
-            if (typeof epgUrls[id] !== 'undefined') {
-                epgChannels += Epg.getChannelEpg(channelIndex, name);
+            var channel = id.split('_')[1];
 
-                Epg.loadEPG(epgUrls[id], function (shows) {
-                    log(epgUrls[id] + ' ' + shows.length + ' scannelt musor');
-                    for (var i = 0; i < shows.length; i++) {
-                        var endStartDate = new Date(shows[i].startDate);
-                        epgPrograms += Epg.getProgrammeTemplate(
-                            channelIndex,
-                            shows[i].startDate,
-                            typeof shows[i+1] !== 'undefined'
-                                ? shows[i+1].startDate : endStartDate.setHours(endStartDate.getHours() + 1),
-                            shows[i].name + ' ' + shows[i].description
-                        );
-                    }
-                });
-            }
-            else {
-                log(`Nem talalhato ehhez EPG: ${channelElement.id}`);
-            }
+            epgChannels += Epg.getChannelEpg(channelIndex, name);
+
+            Epg.loadEPG(epgUrls[channel], function (shows) {
+                log(epgUrls[channel] + ' ' + shows.length + ' scannelt musor');
+                for (var i = 0; i < shows.length; i++) {
+                    var endStartDate = new Date(shows[i].startDate);
+                    epgPrograms += Epg.getProgrammeTemplate(
+                        channelIndex,
+                        shows[i].startDate,
+                        typeof shows[i+1] !== 'undefined'
+                            ? shows[i+1].startDate : endStartDate.setHours(endStartDate.getHours() + 1),
+                        shows[i]
+                    );
+                }
+            });
         }, 2000);
 
         /**
