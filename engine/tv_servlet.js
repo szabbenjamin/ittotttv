@@ -40,7 +40,6 @@ var server = http.createServer(function(request, response) {
     var get   = decodeURIComponent(request.url.substring(1)),
         param = get;
 
-    get = get.substring(get.length-5, 0);
     var url = require('url').parse(request.url);
 
     if (url.pathname.startsWith('/static')) {
@@ -55,7 +54,8 @@ var server = http.createServer(function(request, response) {
         response.end();
         log('Inditva: ' + get);
     }
-    else if ((get.substring(0, 2) === 'io') && (channels.indexOf(get) !== -1)) {
+    else if (get.indexOf('.m3u8') !== -1) {
+        get = get.replace('.m3u8', '');
         app.getChannel(get, function (url) {
             response.writeHead(302, {
                 'Location': url
@@ -82,7 +82,7 @@ var server = http.createServer(function(request, response) {
     }
     else {
         response.writeHead(200, {'Content-Type': 'text/html'});
-        response.end();
+        response.end('unknown request');
     }
 
 });
