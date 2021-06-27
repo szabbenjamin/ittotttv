@@ -2,7 +2,10 @@
 
 const config = {
     preUrl:             'http://localhost:8081/', // Az a szerver ip cim/host ahol a servlet fut
-    recordingLocation:  '/home/user/TV/', // path, ahova a felvetelek mentesre kerulnek
+    recordingLocation:  '/home/user/TV/',         // path, ahova a felvetelek mentesre kerulnek
+    genFilesDir:	'../generated-files',     // konyvtar, ahova a channels.m3u es epg.xml fajl mentesre 
+                                                  // kerul, lehet relativ (engine/ -hez kepest) vagy abszolut.
+                                                  // Ha nem letezik, automatikusan letrehozasra kerul.
     USERDATA: {
         /**
          * Belepesi adatok

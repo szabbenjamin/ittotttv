@@ -1,5 +1,6 @@
 .idea/*
 *.iws
+*~
 /out/
 .idea_modules/
 atlassian-ide-plugin.xml
@@ -14,3 +15,4 @@ epg.xml
 tv_servlet.sh
 shelf/*
 log.log
+engine/package-lock.json
