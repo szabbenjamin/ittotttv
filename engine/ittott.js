@@ -162,8 +162,22 @@ class Ittott {
                     }
                 },
                 function (error, response, body) {
-                    var content = JSON.parse(body).content.ajaxpopup.value,
-                        links = $(content).find('.ajaxpopuplink'),
+                    let jsonResponse = '';
+                    try {
+                        jsonResponse = JSON.parse(body);
+                    } catch (e) {
+                        throw new Error(`Ervenytelen valasz erkezett bejelentkezeskor: ${body}`);
+                    }
+
+                    let content = '';
+                    if (typeof jsonResponse !== 'undefined') {
+                        content = jsonResponse.content.ajaxpopup.value;
+                    }
+                    else {
+                        throw new Error(`jsonResponse.content.ajaxpopup.value nem tartalmaz adatot: ${jsonResponse}`);
+                    }
+
+                    var links = $(content).find('.ajaxpopuplink'),
                         channels = '#EXTM3U\n';
 
 
