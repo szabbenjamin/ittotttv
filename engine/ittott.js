@@ -229,16 +229,16 @@ class Ittott {
             return new Promise(resolve => setTimeout(resolve, milliseconds))
         }
 
-	// pre-filter list to avoid unnecessary cycles below
-	// TODO: refactor, use worker instead!
+        // pre-filter list to avoid unnecessary cycles below
+        // TODO: refactor, use worker instead!
         const channel_list_temp = this.collectedChannels.filter(function(item){
-		var channel = item.id.split('_')[1];
-		if (typeof epgUrls[channel] === 'undefined') {
-			log(`Nem talalhato ehhez EPG: ${item.id}`);
-			return false;
-		}
-		return true;
-	});
+            var channel = item.id.split('-')[1];
+            if (typeof epgUrls[channel] === 'undefined') {
+                log(`Nem talalhato ehhez EPG: ${item.id}`);
+                return false;
+            }
+            return true;
+        });
 
         var progress = setInterval(() => {
             // Ha elfogyott vége a dalnak, mentjük az xml-t
