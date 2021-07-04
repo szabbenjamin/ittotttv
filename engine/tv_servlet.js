@@ -18,13 +18,6 @@ var serve = serveStatic(config.genFilesDir);
 var Ittott = require('./ittott.js');
 
 /**
- * Felvétel ütemező. Kivezetésre fog kerülni, egy webes felület fogja átvenni a helyét.
- * #DEPRECATED
- * @type {Scheduler}
- */
-var Scheduler = require('./scheduler.js');
-
-/**
  * User konfiguráció. Benne van a .gitignore-ban, a config.js.sample a mintája
  */
 const USERDATA = config.USERDATA;
@@ -114,10 +107,3 @@ try {
  * Majd átalakításra kerül
  */
 app.generateChannelList();
-
-/**
- * Elindítja az időzítőt.
- * Kikommenteléssel le lehet kapcsolni, ha valahol zavart okozna
- * @type {Scheduler}
- */
-new Scheduler(Ittott, USERDATA);

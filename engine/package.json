@@ -1,6 +1,6 @@
 {
   "name": "ittotttv",
-  "version": "0.9.4",
+  "version": "0.10.0",
   "description": "Ittott.tv nodejs servlet külső lejátszóhoz",
   "main": "tv_servlet.js",
   "dependencies": {
@@ -11,7 +11,7 @@
     "jsdom": "^9.9.1",
     "readline-sync": "^1.4.5",
     "serve-static": "^1.14.1",
-    "webpack": "^1.14.0"
+    "webpack": "^5.42.0"
   },
   "devDependencies": {
     "eslint": "^5.3.0"

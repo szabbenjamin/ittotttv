@@ -255,7 +255,7 @@ class Ittott {
                 name            = channelElement.name,
                 id              = channelElement.id;
 
-            var channel = id.split('_')[1];
+            var channel = id.split('-')[1];
 
             epgChannels += Epg.getChannelEpg(channelIndex, name);
 
